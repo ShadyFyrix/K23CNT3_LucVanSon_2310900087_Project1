@@ -13,7 +13,7 @@
         </a>
     </li>
     <li class="list-group-item">
-        <a href="#" class="text-decoration-none d-flex align-items-center">
+        <a href="{{route('san_pham.index')}}" class="text-decoration-none d-flex align-items-center">
             <i class="fas fa-clipboard-list me-2"></i> Danh Sách Sản Phẩm
         </a>
     </li>

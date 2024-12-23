@@ -3,7 +3,7 @@ use App\Http\Controllers\lvs_hoa_donController;
 use App\Http\Controllers\lvs_loai_san_phamController;
 use App\Models\lvs_quan_tri;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\lvs_san_phamController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -34,7 +34,16 @@ Route::prefix('lvs_admins/lvs_hoa_don')->group(function () {
     Route::put('/{lvs_MaHoaDon}', [lvs_hoa_donController::class, 'update'])->name('hoa_don.update');
     Route::delete('/{lvs_MaHoaDon}', [lvs_hoa_donController::class, 'destroy'])->name('hoa_don.destroy');
     Route::get('/{lvs_MaHoaDon}', [lvs_hoa_donController::class, 'show'])->name('hoa_don.show');
-
 });
+Route::prefix('san_pham')->group(function () {
+    Route::get('/', [lvs_san_phamController::class, 'index'])->name('san_pham.index');
+    Route::get('/create', [lvs_san_phamController::class, 'create'])->name('san_pham.create');
+    Route::post('/', [lvs_san_phamController::class, 'store'])->name('san_pham.store');
+    Route::get('/{lvs_MaSanPham}', [lvs_san_phamController::class, 'show'])->name('san_pham.show');
+    Route::get('/{lvs_MaSanPham}/edit', [lvs_san_phamController::class, 'edit'])->name('san_pham.edit');
+    Route::put('/{lvs_MaSanPham}', [lvs_san_phamController::class, 'update'])->name('san_pham.update');
+    Route::delete('/{lvs_MaSanPham}', [lvs_san_phamController::class, 'destroy'])->name('san_pham.destroy');
+});
+
 
 

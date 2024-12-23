@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class lvs_loai_san_pham extends Model
 {
     use HasFactory;
-
     protected $table = 'lvs_loai_san_pham';
+    public $incrementing = false; 
     protected $fillable = ['lvs_Maloai', 'lvs_TenLoai', 'lvs_TrangThai'];
+    public function sanPham()
+{
+    return $this->hasMany(lvs_san_pham::class, 'lvs_MaLoai', 'lvs_MaLoai');
+}
+
 }

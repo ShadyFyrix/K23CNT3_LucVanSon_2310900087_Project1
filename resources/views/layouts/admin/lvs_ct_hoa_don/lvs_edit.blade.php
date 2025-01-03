@@ -1,52 +1,105 @@
 @extends('layouts.admin.master')
-@section('title', 'Chỉnh Sửa Hóa Đơn')
+@section('title', 'Chỉnh Sửa Chi Tiết Hóa Đơn')
 @section('content-body')
-<div class="container border">
-    <h1>Chỉnh Sửa Hóa Đơn</h1>
-    <form action="{{ route('hoa_don.update', $hoaDon->lvs_MaHoaDon) }}" method="POST">
+<div class="container border rounded shadow-lg mt-5 p-4 bg-light" 
+     style="max-width: 800px; background: #f8f9fa; font-family: Arial, sans-serif; border-radius: 8px;">
+    <!-- Tiêu đề -->
+    <h2 class="text-center text-primary mb-4 animate__animated animate__fadeInDown" 
+        style="font-weight: bold; font-size: 24px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">
+        <i class="fas fa-edit"></i> Chỉnh Sửa Chi Tiết Hóa Đơn
+    </h2>
+
+    <!-- Hiển thị lỗi -->
+    @if ($errors->any())
+        <div class="alert alert-danger animate__animated animate__shakeX" 
+             style="border: 1px solid #dc3545; border-radius: 5px; padding: 10px;">
+            <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                @foreach ($errors->all() as $error)
+                    <li style="color: #dc3545; font-size: 14px;">
+                        <i class="fas fa-exclamation-circle"></i> {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Form -->
+    <form action="{{ route('lvs_editCTHDSubmit', $ctHoaDon->id) }}" method="POST" class="animate__animated animate__fadeInUp">
         @csrf
-        @method('PUT')
+        @method('POST')
 
-        <div class="form-group mb-3">
-            <label for="lvs_MaHoaDon">Mã Hóa Đơn</label>
-            <input type="text" name="lvs_MaHoaDon" id="lvs_MaHoaDon" value="{{ $hoaDon->lvs_MaHoaDon }}" class="form-control" readonly>
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="lvs_Makhachhang">Mã Khách Hàng</label>
-            <input type="text" name="lvs_Makhachhang" id="lvs_Makhachhang" value="{{ $hoaDon->lvs_Makhachhang }}" class="form-control" required>
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="lvs_HotenKhachHang">Họ Tên Khách Hàng</label>
-            <input type="text" name="lvs_HotenKhachHang" id="lvs_HotenKhachHang" value="{{ $hoaDon->lvs_HotenKhachHang }}" class="form-control" required>
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="lvs_TongGiaTri">Tổng Giá Trị</label>
-            <input type="number" name="lvs_TongGiaTri" id="lvs_TongGiaTri" value="{{ $hoaDon->lvs_TongGiaTri }}" class="form-control" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="lvs_Email">Email</label>
-            <input type="email" name="lvs_Email" id="lvs_Email" value="{{ $hoaDon->lvs_Email }}" class="form-control" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="lvs_DienThoai">Điện Thoại</label>
-            <input type="text" name="lvs_DienThoai" id="lvs_DienThoai" value="{{ $hoaDon->lvs_DienThoai }}" class="form-control" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="lvs_DiaChi">Địa Chỉ</label>
-            <input type="text" name="lvs_DiaChi" id="lvs_DiaChi" value="{{ $hoaDon->lvs_DiaChi }}" class="form-control" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="lvs_TrangThai">Trạng Thái</label>
-            <select name="lvs_TrangThai" id="lvs_TrangThai" class="form-control" required>
-                <option value="1" {{ $hoaDon->lvs_TrangThai == 1 ? 'selected' : '' }}>Kích Hoạt</option>
-                <option value="0" {{ $hoaDon->lvs_TrangThai == 0 ? 'selected' : '' }}>Không Kích Hoạt</option>
+        <!-- Hóa Đơn -->
+        <div class="mb-4">
+            <label for="lvs_HoaDonID" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-receipt"></i> Hóa Đơn</label>
+            <select name="lvs_HoaDonID" id="lvs_HoaDonID" class="form-select shadow-sm" 
+                    style="border-radius: 5px; padding: 10px; font-size: 14px;">
+                @foreach ($hoaDon as $hd)
+                    <option value="{{ $hd->id }}" {{ $ctHoaDon->lvs_HoaDonID == $hd->id ? 'selected' : '' }}>
+                        {{ $hd->id }}
+                    </option>
+                @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-success">Cập Nhật</button>
-        <a href="{{ route('hoa_don.index') }}" class="btn btn-secondary">Hủy</a>
+
+        <!-- Sản Phẩm -->
+        <div class="mb-4">
+            <label for="lvs_SanPhamID" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-box"></i> Sản Phẩm</label>
+            <input type="number" name="lvs_SanPhamID" id="lvs_SanPhamID" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   value="{{ $ctHoaDon->lvs_SanPhamID }}" required>
+        </div>
+
+        <!-- Số Lượng Mua -->
+        <div class="mb-4">
+            <label for="lvs_SoLuongMua" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-cart-plus"></i> Số Lượng Mua</label>
+            <input type="number" name="lvs_SoLuongMua" id="lvs_SoLuongMua" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   value="{{ $ctHoaDon->lvs_SoLuongMua }}" required>
+        </div>
+
+        <!-- Đơn Giá -->
+        <div class="mb-4">
+            <label for="lvs_DonGiaMua" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-dollar-sign"></i> Đơn Giá</label>
+            <input type="number" step="0.01" name="lvs_DonGiaMua" id="lvs_DonGiaMua" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   value="{{ $ctHoaDon->lvs_DonGiaMua }}" required>
+        </div>
+
+        <!-- Thành Tiền -->
+        <div class="mb-4">
+            <label for="lvs_ThanhTien" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-money-bill-wave"></i> Thành Tiền</label>
+            <input type="number" step="0.01" name="lvs_ThanhTien" id="lvs_ThanhTien" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   value="{{ $ctHoaDon->lvs_ThanhTien }}">
+        </div>
+
+        <!-- Trạng Thái -->
+        <div class="mb-4">
+            <label for="lvs_TrangThai" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-toggle-on"></i> Trạng Thái</label>
+            <select name="lvs_TrangThai" id="lvs_TrangThai" class="form-select shadow-sm" 
+                    style="border-radius: 5px; padding: 10px; font-size: 14px;">
+                <option value="1" {{ $ctHoaDon->lvs_TrangThai ? 'selected' : '' }}>Hoạt Động</option>
+                <option value="0" {{ !$ctHoaDon->lvs_TrangThai ? 'selected' : '' }}>Không Hoạt Động</option>
+            </select>
+        </div>
+
+        <!-- Nút hành động -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success shadow-sm" 
+                    style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+                <i class="fas fa-save"></i> Lưu Thay Đổi
+            </button>
+            <a href="{{ route('lvs_listCTHD') }}" class="btn btn-secondary shadow-sm" 
+               style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+                <i class="fas fa-arrow-left"></i> Quay Lại
+            </a>
+        </div>
     </form>
 </div>
 @endsection

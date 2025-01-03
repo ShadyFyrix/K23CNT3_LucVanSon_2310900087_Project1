@@ -12,7 +12,7 @@ class lvs_quan_tri extends Seeder
      */
     public function run(): void
     {
-            $lvs_MatKhau = Hash::make('13022005');
+            $lvs_MatKhau = Hash::make('10');
     
             DB::table('lvs_quan_tri')->insert([
                 'lvs_TaiKhoan' => 'shadyfyrix@gmail.com',

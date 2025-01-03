@@ -1,26 +1,93 @@
 @extends('layouts.admin.master')
-@section('tittle', 'Thêm Loại Sản Phẩm')
+@section('tittle', 'Thêm Chi Tiết Hóa Đơn')
 @section('content-body')
-<div class="container">
-    <h1>Thêm Loại Sản Phẩm</h1>
-    <form action="{{ route('lvs-admin.lvs_loai_san_pham.store') }}" method="POST">
+<div class="container border rounded shadow-lg mt-5 p-4 bg-light" 
+     style="max-width: 800px; background: #f8f9fa; font-family: Arial, sans-serif; border-radius: 8px;">
+    <!-- Tiêu đề -->
+    <h2 class="text-center text-success mb-4 animate__animated animate__fadeInDown" 
+        style="font-weight: bold; font-size: 24px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">
+        <i class="fas fa-plus-circle"></i> Thêm Chi Tiết Hóa Đơn
+    </h2>
+
+    <!-- Hiển thị lỗi -->
+    @if ($errors->any())
+        <div class="alert alert-danger animate__animated animate__shakeX" 
+             style="border: 1px solid #dc3545; border-radius: 5px; padding: 10px;">
+            <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                @foreach ($errors->all() as $error)
+                    <li style="color: #dc3545; font-size: 14px;">
+                        <i class="fas fa-exclamation-circle"></i> {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Form -->
+    <form action="{{ route('lvs_createCTHDSubmit') }}" method="POST" class="animate__animated animate__fadeInUp">
         @csrf
-        <div class="form-group">
-            <label for="lvs_Maloai">Mã Loại</label>
-            <input type="text" name="lvs_Maloai" class="form-control" required>
+        <!-- Hóa Đơn -->
+        <div class="mb-4">
+            <label for="lvs_HoaDonID" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-receipt"></i> Hóa Đơn</label>
+            <select name="lvs_HoaDonID" id="lvs_HoaDonID" class="form-select shadow-sm" 
+                    style="border-radius: 5px; padding: 10px; font-size: 14px;">
+                @foreach ($hoaDon as $hd)
+                    <option value="{{ $hd->id }}">{{ $hd->id }}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="form-group">
-            <label for="lvs_TenLoai">Tên Loại</label>
-            <input type="text" name="lvs_TenLoai" class="form-control" required>
+
+        <!-- Sản Phẩm -->
+        <div class="mb-4">
+            <label for="lvs_SanPhamID" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-box"></i> Sản Phẩm</label>
+            <input type="number" name="lvs_SanPhamID" id="lvs_SanPhamID" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   placeholder="Nhập mã sản phẩm" required>
         </div>
-        <div class="form-group">
-            <label for="lvs_TrangThai">Trạng Thái</label>
-            <select name="lvs_TrangThai" class="form-control" required>
+
+        <!-- Số Lượng Mua -->
+        <div class="mb-4">
+            <label for="lvs_SoLuongMua" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-cart-plus"></i> Số Lượng Mua</label>
+            <input type="number" name="lvs_SoLuongMua" id="lvs_SoLuongMua" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   placeholder="Nhập số lượng mua" required>
+        </div>
+
+        <!-- Đơn Giá -->
+        <div class="mb-4">
+            <label for="lvs_DonGiaMua" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-dollar-sign"></i> Đơn Giá</label>
+            <input type="number" step="0.01" name="lvs_DonGiaMua" id="lvs_DonGiaMua" class="form-control shadow-sm" 
+                   style="border-radius: 5px; padding: 10px; font-size: 14px;" 
+                   placeholder="Nhập đơn giá" required>
+        </div>
+
+        <!-- Trạng Thái -->
+        <div class="mb-4">
+            <label for="lvs_TrangThai" class="form-label" 
+                   style="font-weight: bold; font-size: 16px;"><i class="fas fa-toggle-on"></i> Trạng Thái</label>
+            <select name="lvs_TrangThai" id="lvs_TrangThai" class="form-select shadow-sm" 
+                    style="border-radius: 5px; padding: 10px; font-size: 14px;">
                 <option value="1">Hoạt Động</option>
                 <option value="0">Không Hoạt Động</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Lưu</button>
+
+        <!-- Nút hành động -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success shadow-sm" 
+                    style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+                <i class="fas fa-save"></i> Thêm
+            </button>
+            <a href="{{ route('lvs_listCTHD') }}" class="btn btn-secondary shadow-sm" 
+               style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+                <i class="fas fa-arrow-left"></i> Quay Lại
+            </a>
+        </div>
     </form>
 </div>
 @endsection
+    

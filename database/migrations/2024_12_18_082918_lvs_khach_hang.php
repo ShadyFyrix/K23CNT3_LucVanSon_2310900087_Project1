@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('lvs_Makhachhang',255)->unique();
             $table->string('lvs_Hotenkhachhang',255);
             $table->string('lvs_Email',255);
+            $table->string('lvs_MatKhau',255);
             $table->string('lvs_DienThoai',255);
             $table->string('lvs_DiaChi',255);
             $table->date('lvs_NgayDK');

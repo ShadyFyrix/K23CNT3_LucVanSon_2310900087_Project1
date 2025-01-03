@@ -17,5 +17,15 @@ class lvs_loai_san_pham extends Seeder
             'lvs_TenLoai'=>'Cây Văn phong',
             'lvs_TrangThai' => 0
         ]);
+        DB::table('lvs_loai_san_pham')->insert([
+            'lvs_Maloai'=>'L002',
+            'lvs_TenLoai'=>'Linh Kiện',
+            'lvs_TrangThai' => 0
+        ]);
+        DB::table('lvs_loai_san_pham')->insert([
+            'lvs_Maloai'=>'L003',
+            'lvs_TenLoai'=>'Models',
+            'lvs_TrangThai' => 0
+        ]);
     }
 }
